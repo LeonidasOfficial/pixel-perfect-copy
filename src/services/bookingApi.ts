@@ -1,3 +1,5 @@
+import { supabase } from '@/lib/supabase';
+
 export interface Booking {
   id: string;
   startDate: string; // ISO date string (Saturday)
@@ -9,79 +11,141 @@ export interface Booking {
   updatedAt: string;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+// Database row type (snake_case)
+interface BookingRow {
+  id: string;
+  start_date: string;
+  end_date: string;
+  guest_name: string | null;
+  guest_email: string | null;
+  status: 'confirmed' | 'pending' | 'cancelled';
+  created_at: string;
+  updated_at: string;
+}
+
+// Convert database row to Booking interface
+function rowToBooking(row: BookingRow): Booking {
+  return {
+    id: row.id,
+    startDate: row.start_date,
+    endDate: row.end_date,
+    guestName: row.guest_name || undefined,
+    guestEmail: row.guest_email || undefined,
+    status: row.status,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+// Convert Booking interface to database row
+function bookingToRow(booking: Partial<Booking>): Partial<BookingRow> {
+  const row: Partial<BookingRow> = {};
+  if (booking.startDate !== undefined) row.start_date = booking.startDate;
+  if (booking.endDate !== undefined) row.end_date = booking.endDate;
+  if (booking.guestName !== undefined) row.guest_name = booking.guestName || null;
+  if (booking.guestEmail !== undefined) row.guest_email = booking.guestEmail || null;
+  if (booking.status !== undefined) row.status = booking.status;
+  return row;
+}
 
 export async function fetchBookings(): Promise<Booking[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/bookings`, {
-      signal: AbortSignal.timeout(5000), // 5 second timeout
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to fetch bookings: ${response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-    if (error instanceof Error && error.name === 'AbortError') {
-      console.error('Request timeout - backend server may not be running');
-    } else if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-      console.error('Backend server is not running. Please start it with: npm run server');
-    } else {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .order('start_date', { ascending: true });
+
+    if (error) {
       console.error('Error fetching bookings:', error);
+      throw new Error(`Failed to fetch bookings: ${error.message}`);
     }
-    // Return empty array if API is not available (for development)
+
+    if (!data) {
+      return [];
+    }
+
+    return data.map(rowToBooking);
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
+    // Return empty array if Supabase is not available (for development)
     return [];
   }
 }
 
 export async function createBooking(booking: Omit<Booking, 'id' | 'createdAt' | 'updatedAt'>): Promise<Booking> {
   try {
-    const response = await fetch(`${API_BASE_URL}/bookings`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(booking),
-      signal: AbortSignal.timeout(10000), // 10 second timeout
-    });
+    const now = new Date().toISOString();
+    const rowData: Partial<BookingRow> = {
+      ...bookingToRow(booking),
+      created_at: now,
+      updated_at: now,
+    };
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-      throw new Error(errorData.error || `Failed to create booking: ${response.statusText}`);
+    const { data, error } = await supabase
+      .from('bookings')
+      .insert([rowData])
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating booking:', error);
+      throw new Error(`Failed to create booking: ${error.message}`);
     }
 
-    return await response.json();
+    if (!data) {
+      throw new Error('No data returned from create booking');
+    }
+
+    return rowToBooking(data);
   } catch (error) {
-    if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-      throw new Error('Backend server is not running. Please start it with: npm run server');
-    }
     console.error('Create booking error:', error);
     throw error;
   }
 }
 
 export async function updateBooking(id: string, booking: Partial<Booking>): Promise<Booking> {
-  const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(booking),
-  });
+  try {
+    const rowData: Partial<BookingRow> = {
+      ...bookingToRow(booking),
+      updated_at: new Date().toISOString(),
+    };
 
-  if (!response.ok) {
-    throw new Error('Failed to update booking');
+    const { data, error } = await supabase
+      .from('bookings')
+      .update(rowData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error updating booking:', error);
+      throw new Error(`Failed to update booking: ${error.message}`);
+    }
+
+    if (!data) {
+      throw new Error('Booking not found');
+    }
+
+    return rowToBooking(data);
+  } catch (error) {
+    console.error('Update booking error:', error);
+    throw error;
   }
-
-  return await response.json();
 }
 
 export async function deleteBooking(id: string): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/bookings/${id}`, {
-    method: 'DELETE',
-  });
+  try {
+    const { error } = await supabase
+      .from('bookings')
+      .delete()
+      .eq('id', id);
 
-  if (!response.ok) {
-    throw new Error('Failed to delete booking');
+    if (error) {
+      console.error('Error deleting booking:', error);
+      throw new Error(`Failed to delete booking: ${error.message}`);
+    }
+  } catch (error) {
+    console.error('Delete booking error:', error);
+    throw error;
   }
 }
-

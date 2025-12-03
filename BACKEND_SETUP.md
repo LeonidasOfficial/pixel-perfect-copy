@@ -1,93 +1,134 @@
-# Backend Server Setup Guide
+# Supabase Backend Setup Guide
 
-## ⚠️ IMPORTANT: Backend Server Required
+## Overview
 
-The booking management system requires a backend server to be running. Without it, you cannot create, edit, or manage bookings.
+This project uses **Supabase** as the backend database for persistent online storage. The frontend connects directly to Supabase using the Supabase JavaScript client, eliminating the need for a separate Express server in production.
 
 ## Quick Start
 
-### Step 1: Install Dependencies
+### Step 1: Create Supabase Project
 
-Make sure you have all dependencies installed:
+1. Go to [https://supabase.com](https://supabase.com) and create an account
+2. Create a new project
+3. Note your project URL and anon key from **Settings → API**
+
+### Step 2: Set Up Database
+
+1. Go to your Supabase project dashboard
+2. Open the **SQL Editor**
+3. Copy and paste the contents of `supabase-migration.sql`
+4. Click **Run** to create the `bookings` table
+
+### Step 3: Configure Environment Variables
+
+Create a `.env` file in the project root:
+
 ```bash
-npm install
+cp .env.example .env
 ```
 
-### Step 2: Start the Backend Server
+Edit `.env` and add your Supabase credentials:
 
-Open a **separate terminal** and run:
+```env
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-public-key-here
+```
+
+### Step 4: Migrate Existing Bookings (Optional)
+
+If you have existing bookings in `server/bookings.json`, migrate them to Supabase:
+
 ```bash
-npm run server
+export VITE_SUPABASE_URL="https://your-project-id.supabase.co"
+export VITE_SUPABASE_ANON_KEY="your-anon-key"
+node migrate-bookings.js
 ```
 
-You should see:
-```
-Booking API server running on http://localhost:3001
-```
-
-### Step 3: Start the Frontend (in another terminal)
+### Step 5: Start Development Server
 
 ```bash
 npm run dev
 ```
 
+The admin dashboard will now connect to Supabase and all changes will be saved online!
+
+## How It Works
+
+- **Frontend** → Directly connects to Supabase using `@supabase/supabase-js`
+- **Database** → PostgreSQL database hosted on Supabase
+- **Storage** → All booking data is stored in the `bookings` table
+- **Persistence** → Data persists across sessions and devices
+
+## Database Schema
+
+The `bookings` table has the following structure:
+
+- `id` (TEXT, PRIMARY KEY) - Unique booking identifier
+- `start_date` (TIMESTAMPTZ) - Booking start date (Saturday)
+- `end_date` (TIMESTAMPTZ) - Booking end date (next Saturday)
+- `guest_name` (TEXT, nullable) - Guest name
+- `guest_email` (TEXT, nullable) - Guest email
+- `status` (TEXT) - Booking status: 'confirmed', 'pending', or 'cancelled'
+- `created_at` (TIMESTAMPTZ) - Creation timestamp
+- `updated_at` (TIMESTAMPTZ) - Last update timestamp
+
 ## Troubleshooting
 
-### Error: `ERR_CONNECTION_REFUSED`
+### Error: "Supabase environment variables are not set"
 
-This means the backend server is not running. 
+**Solution:** Make sure your `.env` file exists and contains:
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+### Error: "Failed to fetch bookings"
+
+**Possible causes:**
+1. Supabase credentials are incorrect
+2. Database table doesn't exist (run `supabase-migration.sql`)
+3. Row Level Security (RLS) policies are blocking access
 
 **Solution:**
-1. Open a new terminal window
-2. Navigate to your project directory
-3. Run: `npm run server`
-4. Keep that terminal open while using the admin dashboard
+1. Verify your credentials in Supabase dashboard
+2. Check that the `bookings` table exists in your database
+3. Verify RLS policies allow access (the migration script sets up permissive policies)
 
-### Error: Port 3001 already in use
+### Data not persisting
 
-Another process is using port 3001.
-
-**Solution:**
-1. Find what's using the port:
-   ```bash
-   lsof -i :3001
-   ```
-2. Kill that process or change the port in `server/index.js`:
-   ```javascript
-   const PORT = process.env.PORT || 3002; // Change to 3002
-   ```
-3. Update `src/services/bookingApi.ts`:
-   ```typescript
-   const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002/api';
-   ```
-
-### Backend server keeps stopping
-
-Make sure you keep the terminal window open. The server runs in the foreground.
-
-**Solution:** Use a process manager like `pm2` or run in background:
-```bash
-npm run server &
-```
-
-## Verifying Backend is Running
-
-Test the backend API:
-```bash
-curl http://localhost:3001/api/bookings
-```
-
-You should get a JSON response (empty array `[]` if no bookings).
-
-## Data Storage
-
-Bookings are stored in `server/bookings.json`. This file is automatically created when the server starts.
+**Solution:** 
+- Check Supabase dashboard → Table Editor → `bookings` table
+- Verify your environment variables are set correctly
+- Check browser console for error messages
 
 ## Production Deployment
 
-For production, you'll need to:
-1. Deploy the backend server (Express.js)
-2. Update `VITE_API_URL` environment variable to point to your production API
-3. Ensure CORS is properly configured
-4. Use a proper database instead of JSON file storage
+### Vercel Deployment
 
+1. Push your code to GitHub
+2. Import project in Vercel
+3. Add environment variables in Vercel dashboard:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+4. Deploy!
+
+Your admin dashboard will work online with persistent data storage.
+
+## Legacy Express Server
+
+The Express server (`server/index.js`) is still available for local development if needed:
+
+```bash
+npm run server
+```
+
+However, for production, Supabase is recommended as it provides:
+- Persistent online storage
+- Automatic backups
+- No server maintenance
+- Scalable infrastructure
+
+## Security Notes
+
+- The current RLS policy allows all operations (permissive for development)
+- For production, consider adding authentication and more restrictive policies
+- Never commit your `.env` file to version control
+- Keep your Supabase anon key secure (it's safe to use in frontend code)

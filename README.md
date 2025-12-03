@@ -23,7 +23,7 @@ La Maison Du Lavoir Vert is a vacation rental property located in the charming m
 - **UI Components**: shadcn-ui (Radix UI)
 - **Routing**: React Router
 - **Animations**: Framer Motion
-- **Backend**: Express.js (Node.js)
+- **Database**: Supabase (PostgreSQL)
 - **State Management**: React Query (TanStack Query)
 
 ## Getting Started
@@ -46,16 +46,37 @@ cd dulavoirevert
 npm install
 ```
 
-3. Start the development server:
+3. Set up environment variables:
+```sh
+cp .env.example .env
+```
+
+Edit `.env` and add your Supabase credentials:
+- `VITE_SUPABASE_URL` - Your Supabase project URL
+- `VITE_SUPABASE_ANON_KEY` - Your Supabase anon public key
+
+4. Set up the database:
+   - Go to your Supabase project dashboard
+   - Open the SQL Editor
+   - Run the SQL script from `supabase-migration.sql` to create the bookings table
+
+5. Migrate existing bookings (optional):
+```sh
+export VITE_SUPABASE_URL="your-supabase-url"
+export VITE_SUPABASE_ANON_KEY="your-anon-key"
+node migrate-bookings.js
+```
+
+6. Start the development server:
 ```sh
 npm run dev
 ```
 
 The application will be available at `http://localhost:8080`
 
-### Backend Server
+### Legacy Backend Server (Optional)
 
-To run the backend server (for booking management):
+The Express backend server is still available for local development if needed:
 
 ```sh
 npm run server
@@ -90,13 +111,24 @@ The backend API will be available at `http://localhost:3001`
 
 ## Deployment
 
-Build the project for production:
+### Build for Production
 
 ```sh
 npm run build
 ```
 
 The `dist` folder will contain the production-ready files that can be deployed to any static hosting service (Vercel, Netlify, GitHub Pages, etc.).
+
+### Deploy to Vercel
+
+1. Push your code to GitHub
+2. Import your project in Vercel
+3. Add environment variables in Vercel dashboard:
+   - `VITE_SUPABASE_URL` - Your Supabase project URL
+   - `VITE_SUPABASE_ANON_KEY` - Your Supabase anon public key
+4. Deploy!
+
+The admin dashboard will automatically connect to Supabase and all booking data will be persisted online.
 
 ## License
 
