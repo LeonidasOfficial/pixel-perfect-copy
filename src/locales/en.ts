@@ -33,7 +33,7 @@ export const en = {
   },
   landscape: {
     heading: 'Impressive natural landscapes',
-    description: "Our desire is that you feel completely comfortable on vacation! Therefore, we are happy to help you plan your trip. We also organize the transportation and catering during your week. Enjoy the landscape and peacefulness.",
+    description: "Our desire is that you feel completely comfortable on vacation! Therefore, we are happy to help you plan your trip. Send a email for all your questions and requests.Enjoy the landscape and peacefulness.",
   },
   cta: {
     heading: 'Have A Relaxing Stay',

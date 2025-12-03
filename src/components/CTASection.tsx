@@ -28,24 +28,25 @@ export function CTASection() {
         transition: 'all 0.3s ease'
       }}
     >
+      {/* Background Image - fills entire section height (160vh) */}
+      <motion.div 
+        className="absolute inset-0 z-0"
+        style={{ y: imageY }}
+      >
+        {/* Full image - fills entire section to footer */}
+        <div className="h-[160vh] relative">
+          <img
+            src="/images/end-bg.webp"
+            alt="Night view of cottage"
+            className="w-full h-full object-cover object-top"
+          />
+          {/* Subtle gradient at bottom to blend with footer */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+        </div>
+      </motion.div>
+
       {/* Sticky container */}
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Background Image - full height, positioned lower */}
-        <motion.div 
-          className="absolute inset-0 z-0"
-          style={{ y: imageY }}
-        >
-          {/* Full image - visible just above footer */}
-          <div className="h-full relative">
-            <img
-              src="/images/end-bg.webp"
-              alt="Night view of cottage"
-              className="w-full h-full object-cover object-top"
-            />
-            {/* Subtle gradient at bottom to blend with footer */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
-          </div>
-        </motion.div>
 
         {/* Text content wrapper with scroll-triggered animations */}
         <motion.div 
