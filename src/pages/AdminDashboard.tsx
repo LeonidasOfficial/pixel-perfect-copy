@@ -624,7 +624,12 @@ export default function AdminDashboard() {
                         return;
                       }
 
-                      setDateRange(range);
+                      if (range.from && range.to) {
+                        setDateRange({ from: range.from, to: range.to });
+                      } else if (range.from) {
+                        setDateRange({ from: range.from, to: undefined });
+                      }
+
                       // Set selectedDate for backward compatibility
                       setSelectedDate(range.from);
                     } else {
