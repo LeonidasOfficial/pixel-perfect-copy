@@ -1,0 +1,15 @@
+{
+  "name": "booking-api-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Booking management API for La Maison Du Lavoir Vert",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}
+

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1764685421898",
+    "startDate": "2026-06-19T22:00:00.000Z",
+    "endDate": "2026-07-03T22:00:00.000Z",
+    "guestName": "",
+    "guestEmail": "",
+    "status": "confirmed",
+    "createdAt": "2025-12-02T14:23:41.898Z",
+    "updatedAt": "2025-12-02T14:23:41.898Z"
+  },
+  {
+    "id": "1764693798428",
+    "startDate": "2026-07-03T22:00:00.000Z",
+    "endDate": "2026-07-17T22:00:00.000Z",
+    "guestName": "Schmit",
+    "guestEmail": "",
+    "status": "confirmed",
+    "createdAt": "2025-12-02T16:43:18.428Z",
+    "updatedAt": "2025-12-02T16:43:18.428Z"
+  }
+]
