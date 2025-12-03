@@ -1,73 +1,103 @@
-# Welcome to your Lovable project
+# La Maison Du Lavoir Vert
 
-## Project info
+A modern vacation rental website for La Maison Du Lavoir Vert, a beautiful retreat in the heart of the Languedoc wine country.
 
-**URL**: https://lovable.dev/projects/1f9198b2-f514-41c2-9bd7-3f148e6f5723
+## About
 
-## How can I edit this code?
+La Maison Du Lavoir Vert is a vacation rental property located in the charming medieval village of Tourbes, France. This inviting house offers the perfect escape, surrounded by rolling vineyards, historic sites, and a vibrant cultural scene. The property features four cozy bedrooms, a spacious living room, private swimming pool, sauna, and modern amenities.
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- **Multi-language Support**: English, French, and German
+- **Room Pages**: Detailed information about each room (Rodin, Moulin Rouge, Caraibes, Delice)
+- **Booking System**: Integrated booking calendar and management system
+- **Admin Dashboard**: Full admin interface for managing bookings and events
+- **Responsive Design**: Modern, mobile-first design with smooth animations
+- **Image Gallery**: Beautiful image galleries showcasing the property
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1f9198b2-f514-41c2-9bd7-3f148e6f5723) and start prompting.
+## Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn-ui (Radix UI)
+- **Routing**: React Router
+- **Animations**: Framer Motion
+- **Backend**: Express.js (Node.js)
+- **State Management**: React Query (TanStack Query)
 
-**Use your preferred IDE**
+## Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js (v18 or higher) - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- npm or yarn
 
-Follow these steps:
+### Installation
 
+1. Clone the repository:
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone https://github.com/LeonidasOfficial/dulavoirevert.git
+cd dulavoirevert
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Install dependencies:
+```sh
+npm install
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Backend Server
 
-**Use GitHub Codespaces**
+To run the backend server (for booking management):
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```sh
+npm run server
+```
 
-## What technologies are used for this project?
+The backend API will be available at `http://localhost:3001`
 
-This project is built with:
+## Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+├── src/
+│   ├── components/     # React components
+│   ├── pages/          # Page components
+│   ├── services/       # API services
+│   ├── contexts/       # React contexts
+│   ├── hooks/          # Custom React hooks
+│   ├── locales/        # Translation files
+│   └── utils/          # Utility functions
+├── server/             # Express backend server
+├── public/             # Static assets
+└── package.json        # Dependencies and scripts
+```
 
-## How can I deploy this project?
+## Available Scripts
 
-Simply open [Lovable](https://lovable.dev/projects/1f9198b2-f514-41c2-9bd7-3f148e6f5723) and click on Share -> Publish.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run build:dev` - Build in development mode
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+- `npm run server` - Start backend server
 
-## Can I connect a custom domain to my Lovable project?
+## Deployment
 
-Yes, you can!
+Build the project for production:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```sh
+npm run build
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+The `dist` folder will contain the production-ready files that can be deployed to any static hosting service (Vercel, Netlify, GitHub Pages, etc.).
+
+## License
+
+All rights reserved.
