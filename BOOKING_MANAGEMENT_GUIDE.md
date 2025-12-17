@@ -20,7 +20,7 @@ npm run dev
 
 ### Step 2: Access the Admin Dashboard
 
-1. Open your browser and go to: `http://localhost:8080/admin`
+1. Open your browser and go to: `http://localhost:3000/admin`
 2. You'll see a visual dashboard with:
    - **Calendar overview** showing all booked dates in red
    - **List of all bookings** with guest information

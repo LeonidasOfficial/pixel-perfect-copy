@@ -72,7 +72,7 @@ node migrate-bookings.js
 npm run dev
 ```
 
-The application will be available at `http://localhost:8080`
+The application will be available at `http://localhost:3000`
 
 ### Legacy Backend Server (Optional)
 
