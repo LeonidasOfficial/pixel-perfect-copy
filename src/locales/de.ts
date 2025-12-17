@@ -161,12 +161,8 @@ export const de = {
     delice: {
       description: 'Ein süßer Genuss für die Sinne bietet La chambre Délice puren Komfort, eingehüllt in sanfte Pastelltöne und luxuriöse Stoffe. Jedes Detail wurde sorgfältig kuratiert, um einen Raum zu schaffen, in dem Entspannung zur Kunstform wird.',
       features: [
-        'Premium-Memory-Schaum-Matratze',
-        'Beheizte Badezimmerböden',
         'Luxus-Badezimmerausstattung',
         'Gemütliche Leseecke',
-        'Intelligente Zimmersteuerung',
-        'Abendlicher Bettservice',
       ],
     },
     moulinRouge: {
@@ -174,10 +170,8 @@ export const de = {
       features: [
         'Holzbettgestell mit geschwungenem Kopfteil',
         'Großes Fenster mit transparenten rosa Vorhängen',
-        'Luxus-Barcelona-Ledersessel',
         'Elegante Tischlampen und Ambiente-Beleuchtung',
         'Frische Blumen und dekorative Vasen',
-        'Premium-Wasserservice mit Glasflaschen',
         'Wandkunst und Vintage-inspirierte Dekoration',
         'Ganzspiegel',
         'Terrakotta-Fliesenböden',
@@ -205,7 +199,6 @@ export const de = {
         'Regendusche mit tropischen Fliesen',
         'Handgewebte Rattanmöbel',
         'Klimaanlage',
-        'Kostenloser Frühstücksservice',
       ],
     },
   },

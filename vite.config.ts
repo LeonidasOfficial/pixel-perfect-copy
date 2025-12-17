@@ -10,7 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   server: {
     host: "::",
-    port: 8080,
+    port: 3000,
   },
   plugins: [react()],
   resolve: {

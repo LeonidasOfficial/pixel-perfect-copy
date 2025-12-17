@@ -161,12 +161,8 @@ export const fr = {
     delice: {
       description: 'Un doux plaisir pour les sens, La chambre Délice offre un confort pur enveloppé dans des pastels doux et des tissus luxueux. Chaque détail a été soigneusement sélectionné pour créer un espace où la détente devient une forme d\'art.',
       features: [
-        'Matelas en mousse à mémoire de forme premium',
-        'Planchers de salle de bain chauffés',
         'Équipements de bain de luxe',
         'Coin lecture confortable',
-        'Contrôles de chambre intelligents',
-        'Service de retournement du soir',
       ],
     },
     moulinRouge: {
@@ -174,10 +170,8 @@ export const fr = {
       features: [
         'Cadre de lit en bois avec tête de lit incurvée',
         'Grande fenêtre avec rideaux roses transparents',
-        'Chaise en cuir Barcelona de luxe',
         'Lampes de table élégantes et éclairage d\'ambiance',
         'Fleurs fraîches et vases décoratifs',
-        'Service d\'eau premium avec bouteilles en verre',
         'Art mural et décoration vintage',
         'Miroir pleine longueur',
         'Planchers en carrelage terre cuite',
@@ -205,7 +199,6 @@ export const fr = {
         'Douche à pluie avec carreaux tropicaux',
         'Mobilier en rotin tissé à la main',
         'Climatisation',
-        'Service de petit-déjeuner gratuit',
       ],
     },
   },
